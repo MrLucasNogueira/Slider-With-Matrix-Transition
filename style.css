@@ -1,0 +1,93 @@
+body {
+    margin: 0px;
+}
+
+.project {
+    display: block;
+/*    background-color: darkgrey;*/
+    height: 80vh;
+    width: 100vw;
+    position: absolute;
+    z-index: 8;
+}
+
+.mask {
+    position: absolute;
+    overflow: hidden;
+    height: 100%;
+    top: 0;
+/*    background-color: aqua;*/
+    float: left;
+}
+
+.cover {
+    position: absolute;
+    display: block;
+    background: transparent url("") no-repeat scroll 50% 50% / cover;
+    transform: matrix(1, 0, 0, 1, 0, 0);
+    width: 500%;
+    height: 100%;
+}
+
+.cover-hover {
+    -webkit-transform: scale(1.3) translate(-50px);
+    -moz-transform: scale(1.3) translate(-50px);
+    -o-transform: scale(1.3) translate(-50px);
+    transform: scale(1.3) translate(-80px);
+    
+    -webkit-transition: 0.8s ease;
+    -moz-transition: 0.8s ease;
+    -0-transition: 0.8s ease;
+    transition: 0.8s ease;
+    
+    opacity: 0;
+}
+
+.project-active{
+    z-index: 10;
+}
+
+
+.first-mask {
+    width: 20%;
+}
+
+.first-mask .cover {
+    left: 0;
+}
+
+.second-mask {
+    width: 20%;
+    left: 20%;
+}
+
+.second-mask .cover {
+    left: -100%;
+}
+
+.third-mask {
+    width: 20%;
+    left: 40%;
+}
+
+.third-mask .cover {
+    left: -200%;
+}
+
+.fourth-mask {
+    width: 20%;
+    left: 60%;
+}
+
+.fourth-mask .cover {
+    left: -300%;
+}
+
+.fifth-mask {
+    width: 20%;
+    left: 80%;
+}
+
+.fifth-mask .cover {
+    left: -400%;
+}

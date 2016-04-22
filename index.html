@@ -10,7 +10,7 @@
 <body>
 
     <div id="sliderComponent">
-<!--
+        <!--
         <div class="project ">
 
             <div class="mask first-mask">
@@ -64,16 +64,17 @@
 
     </div>
 
-<!--
+    <!--
     <button style="z-index: 1000; position: absolute;" onclick="next()">next</button>
     <button style="z-index: 1000; position: absolute; left:50px;" onclick="newImg()">new</button>
 -->
 
     <script>
         (function () {
-            newImg('http://elespacio.net/assets/images/home/slide-2-M.jpg');
+            //            newImg('http://elespacio.net/assets/images/home/slide-2-M.jpg');
             newImg('http://elespacio.net/assets/images/home/slide-ev60-M.jpg');
-//            newImg('http://dacdavynguyen.com/img/1/alpatlas-bigger.jpg');
+            newImg('http://elespacio.net/assets/images/home/slide-nespresso-M.jpg');
+            newImg('http://dacdavynguyen.com/img/1/alpatlas-bigger.jpg');
             setInterval(function () {
                 next();
             }, 3000);
@@ -83,12 +84,12 @@
         function newImg(img) {
             img = img || 'http://elespacio.net/assets/images/home/slide-ev60-M.jpg';
             console.log('call new');
-            
+
             var slide = document.getElementById('sliderComponent');
             slide.innerHTML += '<div class="project"><div class="mask first-mask"><div class="cover"></div></div><div class="mask second-mask"><div class="cover"></div></div><div class="mask third-mask"><div class="cover"></div></div><div class="mask fourth-mask"><div class="cover"></div></div><div class="mask fifth-mask"><div class="cover"></div></div></div>';
-            
+
             var project = slide.querySelectorAll('.project');
-            var cover = project[project.length-1].querySelectorAll('.cover');
+            var cover = project[project.length - 1].querySelectorAll('.cover');
             for (var i = 0; i < cover.length; i++) {
                 cover[i].style.backgroundImage = "url('" + img + "')";
             }
@@ -96,6 +97,12 @@
             var slider = document.querySelector('#sliderComponent');
             var project = slider.querySelectorAll('.project');
             project[0].classList.add('project-active');
+            for (var i = 0; i < project.length; i++) {
+                var cover = project[i].querySelectorAll('.cover');
+                for (var j = 0; j < cover.length; j++) {
+                    cover[j].classList.add('cover-over')
+                }
+            }
         }
 
         // se funcionar, deve mudar as fotos do slider
@@ -105,42 +112,62 @@
             var project = slider.querySelectorAll('.project');
 
             var indexActive;
-            for (var i = 0; i < project.length; i++) {
-                var cover = project[i].querySelectorAll('.cover');
-                for (var j = 0; j < cover.length; j++) {
-                    cover[j].classList.remove('cover-hover')
 
-                }
-            }
+
             for (var i = 0; i < project.length; i++) {
                 if (project[i].classList.contains('project-active')) {
                     indexActive = i;
-                    break;
+                    project[i].classList.remove('project-active');
+                    i = increment(i, project);
+                    project[i].classList.add('project-active');
+                    i = project.length;
                 }
             }
 
-            transitionCover(0, project[indexActive].querySelectorAll('.cover'));
-
+            transitionOver(0, project[indexActive].querySelectorAll('.cover'));
+            indexActive = increment(indexActive, project);
             setTimeout(function () {
-                project[indexActive].classList.remove('project-active');
-                indexActive++;
-                if (indexActive === project.length) indexActive = 0;
-                project[indexActive].classList.add('project-active');
-            }, 1200);
+                transitionIn(0, project[indexActive].querySelectorAll('.cover'));
+            }, 50)
+
+            //            setTimeout(function () {
+            //                project[indexActive].classList.remove('project-active');
+            //                indexActive++;
+            //                if (indexActive === project.length) indexActive = 0;
+            //                project[indexActive].classList.add('project-active');
+            //            }, 1200);
         }
 
         //função para animar a transição. Cada vez que chamada remove uma parte da imagem.
-        function transitionCover(i, cover) {
+        function transitionOver(i, cover) {
 
             if (i < cover.length) {
-                cover[i].classList.add("cover-hover");
+                cover[i].classList.remove("cover-in");
+                cover[i].classList.add("cover-over");
+                var index = increment(i, cover);
                 i++;
                 setTimeout(function () {
-                    transitionCover(i, cover);
+                    transitionOver(i, cover);
                 }, 80);
-            } else {
-
             }
+        }
+
+        function transitionIn(i, cover) {
+
+            if (i < cover.length) {
+                cover[i].classList.remove("cover-over");
+                cover[i].classList.add("cover-in");
+                i++;
+                setTimeout(function () {
+                    transitionIn(i, cover);
+                }, 80);
+            }
+        }
+
+        function increment(index, array) {
+            index++;
+            if (index >= array.length) index = 0;
+            return index;
         }
     </script>
 

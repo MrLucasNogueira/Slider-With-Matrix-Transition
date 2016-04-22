@@ -8,79 +8,33 @@
 </head>
 
 <body>
+    <!--  div que vai receber o componente  -->
+    <div id="sliderComponent"></div>
+    <!--  links que funcionam como gatilho para mudar slides  -->
+    <h2 style="z-index: 100; position: absolute; left: 50px; top: 50px;" onmouseover="call(0)">link 1</h2>
+    <h2 style="z-index: 100; position: absolute; left: 50px; top: 150px;" onmouseover="call(1)">link 2</h2>
+    <h2 style="z-index: 100; position: absolute; left: 50px; top: 250px;" onmouseover="call(2)">link 3</h2>
+    <h2 style="z-index: 100; position: absolute; left: 50px; top: 350px;" onmouseover="call(3)">link 4</h2>
 
-    <div id="sliderComponent">
-        <!--
-        <div class="project ">
-
-            <div class="mask first-mask">
-                <div class="cover"></div>
-            </div>
-
-            <div class="mask second-mask">
-                <div class="cover"></div>
-            </div>
-
-            <div class="mask third-mask">
-                <div class="cover"></div>
-            </div>
-
-            <div class="mask fourth-mask">
-                <div class="cover"></div>
-            </div>
-
-            <div class="mask fifth-mask">
-                <div class="cover"></div>
-            </div>
-
-        </div>
--->
-
-        <!--
-        <div class="project ">
-
-            <div class="mask first-mask">
-                <div class="cover"></div>
-            </div>
-
-            <div class="mask second-mask">
-                <div class="cover"></div>
-            </div>
-
-            <div class="mask third-mask">
-                <div class="cover"></div>
-            </div>
-
-            <div class="mask fourth-mask">
-                <div class="cover"></div>
-            </div>
-
-            <div class="mask fifth-mask">
-                <div class="cover"></div>
-            </div>
-
-        </div>
--->
-
-    </div>
-
-    <!--
-    <button style="z-index: 1000; position: absolute;" onclick="next()">next</button>
-    <button style="z-index: 1000; position: absolute; left:50px;" onclick="newImg()">new</button>
--->
 
     <script>
+        //configuração
         (function () {
-            //            newImg('http://elespacio.net/assets/images/home/slide-2-M.jpg');
             newImg('http://elespacio.net/assets/images/home/slide-ev60-M.jpg');
+            newImg('http://dacdavynguyen.com/img/0/tattoo-bigger.jpg');
             newImg('http://elespacio.net/assets/images/home/slide-nespresso-M.jpg');
             newImg('http://dacdavynguyen.com/img/1/alpatlas-bigger.jpg');
+            call(0);
+        })();
+
+        //reprodução automatica 
+        function play() {
             setInterval(function () {
                 next();
             }, 3000);
-        })();
+        }
 
-        //coloca uma nova foto no slider [contem bugs] 
+        //cadastra um novo slide
         function newImg(img) {
             img = img || 'http://elespacio.net/assets/images/home/slide-ev60-M.jpg';
             console.log('call new');
@@ -105,9 +59,8 @@
             }
         }
 
-        // se funcionar, deve mudar as fotos do slider
-        function next(id) {
-            console.log('call next');
+        //chama o próximo slide
+        function next() {
             var slider = document.querySelector('#sliderComponent');
             var project = slider.querySelectorAll('.project');
 
@@ -130,17 +83,33 @@
                 transitionIn(0, project[indexActive].querySelectorAll('.cover'));
             }, 50)
 
-            //            setTimeout(function () {
-            //                project[indexActive].classList.remove('project-active');
-            //                indexActive++;
-            //                if (indexActive === project.length) indexActive = 0;
-            //                project[indexActive].classList.add('project-active');
-            //            }, 1200);
         }
 
-        //função para animar a transição. Cada vez que chamada remove uma parte da imagem.
-        function transitionOver(i, cover) {
+        //chama um slide definido no parametro
+        function call(id) {
+            var slider = document.querySelector('#sliderComponent');
+            var project = slider.querySelectorAll('.project');
 
+            var indexActive;
+
+            for (var i = 0; i < project.length; i++) {
+                if (project[i].classList.contains('project-active')) {
+                    indexActive = i;
+                    project[i].classList.remove('project-active');
+                }
+            }
+            project[id].classList.remove('project-active');
+            project[id].classList.add('project-active');
+
+            transitionOver(0, project[indexActive].querySelectorAll('.cover'));
+            setTimeout(function () {
+                transitionIn(0, project[id].querySelectorAll('.cover'));
+            }, 50)
+
+        }
+
+        //executa transição para remover slide
+        function transitionOver(i, cover) {
             if (i < cover.length) {
                 cover[i].classList.remove("cover-in");
                 cover[i].classList.add("cover-over");
@@ -152,8 +121,8 @@
             }
         }
 
+        //executa transição para add slide
         function transitionIn(i, cover) {
-
             if (i < cover.length) {
                 cover[i].classList.remove("cover-over");
                 cover[i].classList.add("cover-in");
@@ -164,6 +133,7 @@
             }
         }
 
+        //incrementa index
         function increment(index, array) {
             index++;
             if (index >= array.length) index = 0;

@@ -17,7 +17,6 @@ function play() {
 //cadastra um novo slide
 function newImg(img) {
     img = img || 'http://elespacio.net/assets/images/home/slide-ev60-M.jpg';
-    console.log('call new');
 
     var slide = document.getElementById('sliderComponent');
     slide.innerHTML += '<div class="project"><div class="mask first-mask"><div class="cover"></div></div><div class="mask second-mask"><div class="cover"></div></div><div class="mask third-mask"><div class="cover"></div></div><div class="mask fourth-mask"><div class="cover"></div></div><div class="mask fifth-mask"><div class="cover"></div></div></div>';
